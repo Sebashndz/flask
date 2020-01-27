@@ -9,9 +9,9 @@ from flask import request
 
 from Divisa_Functions import webservice_request, connectionDB, save_dataframe
 
-application = Flask(__name__, static_url_path="/Static")
+app = Flask(__name__, static_url_path="/Static")
 
-@application.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
 	#return ("Hola Mundo")
 	#Directorio = os.getcwd() + "\\"
@@ -36,4 +36,4 @@ def index():
 	
 
 if __name__ == "__main__":
-	application.run()
+	app.run()
