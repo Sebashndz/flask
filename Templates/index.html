@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+
+<!-- Carga en la plantilla base el Formulario -->
+{% block consulta_nit%}
+
+	{% from "macro.html" import render_field %}
+		<header> 
+			<h1>CONSULTA ESTADO EMPRESA</h1>
+			<!--<p></p>
+			<h2>Digite el nit a consultar</h2>-->
+		</header> 
+		
+		<form method="POST" action="" > 
+			{{render_field(form.nit)}}
+			</p>
+			<button onclick="jsShowWindowLoad('Realizando consulta...')">Consultar</button>
+		</form>
+		
+		{% if form and form.validate() %}
+							
+			{% print ("Creado: " + form.nit.data) %}
+			
+			
+		{% else %}
+			{% print ("") %}
+		{% endif %}
+
+{% endblock %}

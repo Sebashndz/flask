@@ -1,0 +1,153 @@
+<html>	
+	<head>
+		<title>Divisa ONE</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}" />
+		<script type="text/javascript" href="{{url_for('static',filename='js/ajax.js')}}"></script>
+
+				
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+									<a href="/" class="logo"><strong>Divisa ONE</strong></a>
+									<ul class="icons">
+										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+									</ul>
+								</header>
+
+							<!-- Banner -->
+								<section id="banner">
+									<div id="loading" class="loading"></div>	
+									<div class="content">
+										
+										{% block consulta_nit%}
+										{% endblock %}
+										<p></p>
+										
+
+									</div>
+										
+									
+								</section>
+
+							
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!-- Search -->
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+								</section>
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="/">Consulta Informa Colombia</a></li>
+										<li><a href="graficas.py">Gráficas</a></li>
+										
+									</ul>
+								</nav>
+
+							<!-- Section -->
+							
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+		<!--
+		<script type="text/javascript" href="{{url_for('static',filename='js/jquery.min.js')}}"></script>
+		<script type="text/javascript" href="{{url_for('static',filename='js/browser.min.js')}}"></script>
+		<script type="text/javascript" href="{{url_for('static',filename='js/breakpoints.min.js')}}"></script>
+		<script type="text/javascript" href="{{url_for('static',filename='js/util.js')}}"></script>
+		<script type="text/javascript" href="{{url_for('static',filename='js/main.js')}}"></script>
+		-->
+		
+			<script src="Static/js/jquery.min.js"></script>
+			<script src="Static/js/browser.min.js"></script>
+			<script src="Static/js/breakpoints.min.js"></script>
+			<script src="Static/js/util.js"></script>
+			<script src="Static/js/main.js"></script>
+			<script type="text/javascript">// <![CDATA[
+        		function jsRemoveWindowLoad() {
+				    // eliminamos el div que bloquea pantalla
+				    $("#WindowLoad").remove();
+				 
+				}
+				 
+				function jsShowWindowLoad(mensaje) {
+				    //eliminamos si existe un div ya bloqueando
+				    jsRemoveWindowLoad();
+				 
+				    //si no enviamos mensaje se pondra este por defecto
+				    if (mensaje === undefined) mensaje = "Procesando la información&amp;lt;br&amp;gt;Espere por favor";
+				 
+				    //centrar imagen gif
+				    height = 20;//El div del titulo, para que se vea mas arriba (H)
+				    var ancho = 0;
+				    var alto = 0;
+				 
+				    //obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
+				    if (window.innerWidth == undefined) ancho = window.screen.width;
+				    else ancho = window.innerWidth;
+				    if (window.innerHeight == undefined) alto = window.screen.height;
+				    else alto = window.innerHeight;
+				 
+				    //operación necesaria para centrar el div que muestra el mensaje
+				    var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
+				 
+				   //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
+				    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + "</div><img  src='Static/loadingimage.gif'></div>";
+				 
+				        //creamos el div que bloquea grande------------------------------------------
+				        div = document.createElement("div");
+				        div.id = "WindowLoad"
+				        div.style.width = ancho + "px";
+				        div.style.height = alto + "px";
+				        $("body").append(div);
+				 
+				        //creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
+				        input = document.createElement("input");
+				        input.id = "focusInput";
+				        input.type = "text"
+				 
+				        //asignamos el div que bloquea
+				        $("#WindowLoad").append(input);
+				 
+				        //asignamos el foco y ocultamos el input text
+				        $("#focusInput").focus();
+				        $("#focusInput").hide();
+				 
+				        //centramos el div del texto
+				        $("#WindowLoad").html(imgCentro);
+				 
+				}
+
+	  // ]]></script>
+		
+	</body>
+</html>

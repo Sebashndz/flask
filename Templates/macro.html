@@ -1,0 +1,14 @@
+{% macro render_field(field) %}
+	 <h2>{{field.label}} </h2>  <!-- Macro que muestra los campos del formulario en HTML -->
+	 <dd> {{ field(**kwargs)|safe }} 
+
+	 <!--VALIDACIÓN DE ERRORES-->	
+	 {%if field.errors%}
+	 	<ul>
+	 		{% for error in field.errors%}
+	 			<li>{{ error }}</li>
+	 		{%endfor%}	 		
+	 	</ul>
+	 {%endif%}
+
+{% endmacro %}
