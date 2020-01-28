@@ -1498,9 +1498,9 @@ def save_dataframe(nit):
 	# Directorio = os.getcwd() + "\\"
 	Directorio = os.getcwd()
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
-	PathCarpetaConsultas = Directorio +"Consultas/"
+	PathCarpetaConsultas = "Consultas/"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
-	PathCarpetaResultados = Directorio +"Resultados/"
+	PathCarpetaResultados = "Resultados/"
 	
 	NIT = nit
 	Id_Cliente = NIT
