@@ -1,4 +1,4 @@
-{% extends 'base/base.html' %}
+{% extends 'base.html' %}
 
 <!-- Carga en la plantilla base el Formulario -->
 {% block consulta_nit%}
@@ -19,8 +19,7 @@
 		{% if form and form.validate() %}
 							
 			{% print ("Creado: " + form.nit.data) %}
-			
-			
+				
 		{% else %}
 			{% print ("") %}
 		{% endif %}
