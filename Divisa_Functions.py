@@ -1495,11 +1495,12 @@ def Uptate_Tbls_Financieras(conn,cursor):
 def save_dataframe(nit):
 	""" Guarda los csv de los df """
 	#Directorio="C:\\Python_Flask\\envDivisa\\"
-	Directorio = os.getcwd() + "\\"
+	# Directorio = os.getcwd() + "\\"
+	Directorio = os.getcwd()
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
-	PathCarpetaConsultas = Directorio +"Consultas\\"
+	PathCarpetaConsultas = Directorio +"Consultas/"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
-	PathCarpetaResultados = Directorio +"Resultados\\"
+	PathCarpetaResultados = Directorio +"Resultados/"
 	
 	NIT = nit
 	Id_Cliente = NIT
