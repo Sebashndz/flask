@@ -9,7 +9,7 @@ import forms
 
 from Divisa_Functions import webservice_request, connectionDB, save_dataframe
 
-app = Flask(__name__, static_url_path="/Static")
+app = Flask(__name__, static_url_path="/static")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
