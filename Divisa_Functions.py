@@ -93,12 +93,7 @@ def webservice_request(nit):
 def connectionDB():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          "Driver=/opt/amazon/redshiftodbc/lib/64/libamazonredshiftodbc64.so;"
-          "Server=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433;" #el nombre del servidor tambien puede ser "instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433"
-          "Database=Divisa_Copia_2019_11-14;"
-          "UID=admin;"
-          "PWD=admindivisa;" 
-        )
+          'DRIVER=FreeTDS;SERVER=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa_Copia_2019_11-14;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
