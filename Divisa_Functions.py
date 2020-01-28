@@ -1498,7 +1498,7 @@ def save_dataframe(nit):
 	Directorio = os.getcwd() + "\\"
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
 	# PathCarpetaConsultas = Directorio +"Consultas\\"
-	PathCarpetaConsultas = Directorio +"Consultas"
+	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
 	PathCarpetaResultados = Directorio +"Resultados\\"
 	
