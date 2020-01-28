@@ -93,7 +93,7 @@ def webservice_request(nit):
 def connectionDB():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          "Driver={ODBC Driver 13 for SQL Server};"
+          "Driver={ODBC Driver 17 for SQL Server};"
           "Server=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433;" #el nombre del servidor tambien puede ser "instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433"
           "Database=Divisa_Copia_2019_11-14;"
           "UID=admin;"
