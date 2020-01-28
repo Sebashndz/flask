@@ -1,6 +1,6 @@
 from flask import Flask, render_template	
-import forms
 from flask import request
+import forms
 
 
 #from zeep import Client
@@ -31,9 +31,6 @@ def index():
 
 
 	return render_template('index.html', form=nit_form)
-	
-
-	
 
 if __name__ == "__main__":
 	app.run()
