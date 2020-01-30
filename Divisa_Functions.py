@@ -29,16 +29,17 @@ def validate_route():
 	""" Valida las rutas de almacenamoento de los archivos """
 
 	Directorio = os.getcwd() + "\\"
-	PathCarpetaConsultas = Directorio +"Consultas\\"
+	#PathCarpetaConsultas = Directorio +"Consultas\\"
+	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
-	PathCarpetaResultados = Directorio +"Resultados\\"
+	#PathCarpetaResultados = Directorio +"Resultados\\"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
 
 	if not os.path.isdir(PathCarpetaConsultas):
 			os.mkdir(PathCarpetaConsultas)
   
-	if not os.path.isdir(PathCarpetaResultados):
-			os.mkdir(PathCarpetaResultados)
+	#if not os.path.isdir(PathCarpetaResultados):
+	#		os.mkdir(PathCarpetaResultados)
 	return True
 
 
@@ -46,8 +47,8 @@ def webservice_request(nit):
 	""" Realiza petición al web service de Informa Colombia """
 	validate_route()
 	Directorio = os.getcwd() + "\\"
-	PathCarpetaConsultas = Directorio +"Consultas\\"
-
+	#PathCarpetaConsultas = Directorio +"Consultas\\"
+	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
 	
 	#Directorio = os.getcwd() + "\\"
@@ -1500,7 +1501,7 @@ def save_dataframe(nit):
 	# PathCarpetaConsultas = Directorio +"Consultas\\"
 	PathCarpetaConsultas = "/var/www/html/flask/Consultas/"
 	#PathCarpetaResultados = "C:\\Python_Flask\\envDivisa\\Resultados\\"
-	PathCarpetaResultados = Directorio +"Resultados\\"
+	#PathCarpetaResultados = Directorio +"Resultados\\"
 	
 	NIT = nit
 	Id_Cliente = NIT

@@ -24,7 +24,7 @@ def index():
 	if request.method == 'POST' and nit_form.validate(): #Validate() ejecuta las reglas de validacion que se establecieron en forms.py
 		nit=nit_form.nit.data
 
-		#webservice_request(nit)
+		webservice_request(nit)
 		#conn=connectionDB()
 		#cursor = conn.cursor()
 		save_dataframe(nit)
