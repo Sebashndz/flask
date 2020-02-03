@@ -94,7 +94,7 @@ def webservice_request(nit):
 def connectionDB():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          'DRIVER=FreeTDS;SERVER=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa_Copia_2019_11-14;UID=admin;PWD=admindivisa;')
+          'DRIVER=FreeTDS;SERVER=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 	
 	return (conn,cursor)

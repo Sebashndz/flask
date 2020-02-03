@@ -32,5 +32,9 @@ def index():
 
 	return render_template('index.html', form=nit_form)
 
+@app.route('/reporte')
+def reporte():
+	return render_template('reporte.html')
+
 if __name__ == "__main__":
 	app.run()
