@@ -99,6 +99,16 @@ def connectionDB():
 	
 	return (conn,cursor)
 
+def Break_conn(conn,cursor):
+	"""Rompe conexiones"""
+	cursor.execute(f"""USE [master];
+		DECLARE @kill varchar(8000) = '';
+		SELECT @kill = @kill + 'kill ' + CONVERT(varchar(5), session_id) + ';'
+		FROM sys.dm_exec_sessions
+		WHERE database_id  = db_id('Divisa')
+		EXEC(@kill);""")
+	conn.commit()
+
 ################
 #Funciones Base #
 ################
@@ -2167,6 +2177,8 @@ def save_dataframe(nit):
 	ing_tbl_F_Indicadores_Financieros(conn,cursor,tbl_F_Indicadores_Financieros)
 
 	Uptate_Tbls_Financieras(conn,cursor)
+
+	Break_conn(conn,cursor)
 
 	cursor.close()
 	conn.close()
