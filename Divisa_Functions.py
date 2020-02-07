@@ -24,6 +24,10 @@ from pytz import timezone
 import os
 import glob
 
+#Exportar a Excel
+from pandas import ExcelWriter
+from flask import send_file
+
 
 def validate_route():
 	""" Valida las rutas de almacenamoento de los archivos """
@@ -98,6 +102,37 @@ def connectionDB():
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
+
+def connectionDB_DM_Comercial():
+	""" Conexión a la BD """
+	conn = pyodbc.connect(
+          "Driver={SQL Server};"
+          "Server=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433;" #el nombre del servidor tambien puede ser "instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433"
+          "Database=DM_Comercial_Divisa;"
+          "UID=admin;"
+          "PWD=admindivisa;" 
+        )
+	cursor = conn.cursor()
+	
+	return (conn,cursor)
+
+
+def Descarga_Excel():
+	conn,cursor=connectionDB_DM_Comercial()
+	#Directorio = os.getcwd() + "\\"
+	#PathCarpetaReportes = Directorio +"Archivos_Excel\\Reporte.xls"
+
+	sql="SELECT * FROM vw_Reporte_Pagadores"
+	df = pd.read_sql_query(sql, conn)
+	#print (df)
+	path="/var/www/html/flask/Consultas/Reporte.xls"
+	df.to_excel(path, sheet_name="Reporte_Pagadores", header=True)
+
+	cursor.close()
+	conn.close()
+
+	return True
+
 
 def Break_conn(conn,cursor):
 	"""Rompe conexiones"""

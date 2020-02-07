@@ -1,4 +1,4 @@
-from flask import Flask, render_template	
+from flask import Flask, render_template, send_file
 from flask import request
 import forms
 
@@ -7,7 +7,7 @@ import forms
 #import os
 #import codecs
 
-from Divisa_Functions import webservice_request, connectionDB, save_dataframe
+from Divisa_Functions import webservice_request, connectionDB, save_dataframe, Descarga_Excel,connectionDB_DM_Comercial
 
 app = Flask(__name__, static_url_path="/static")
 
@@ -35,6 +35,13 @@ def index():
 @app.route('/reporte')
 def reporte():
 	return render_template('reporte.html')
+
+@app.route('/download')
+def download_file():
+	Descarga_Excel()
+	path="/var/www/html/flask/Consultas/Reporte.xls"
+	return send_file(path,as_attachment=True)
+
 
 if __name__ == "__main__":
 	app.run()
