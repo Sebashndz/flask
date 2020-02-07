@@ -39,7 +39,7 @@ def reporte():
 @app.route('/download')
 def download_file():
 	Descarga_Excel()
-	path="/var/www/html/flask/Consultas/Reporte.xls"
+	path="/var/www/html/flask/Resultados/Reporte.xls"
 	return send_file(path,as_attachment=True)
 
 

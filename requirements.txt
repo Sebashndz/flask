@@ -27,3 +27,4 @@ Werkzeug==0.16.0
 WTForms==2.2.1
 zeep==3.4.0
 zope.interface==4.7.1
+xlrd==1.2.0

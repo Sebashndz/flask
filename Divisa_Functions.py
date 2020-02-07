@@ -27,7 +27,7 @@ import glob
 #Exportar a Excel
 from pandas import ExcelWriter
 from flask import send_file
-
+import xlwt
 
 def validate_route():
 	""" Valida las rutas de almacenamoento de los archivos """
@@ -125,7 +125,7 @@ def Descarga_Excel():
 	sql="SELECT * FROM vw_Reporte_Pagadores"
 	df = pd.read_sql_query(sql, conn)
 	#print (df)
-	path="/var/www/html/flask/Consultas/Reporte.xls"
+	path="/var/www/html/flask/Resultados/Reporte.xls"
 	df.to_excel(path, sheet_name="Reporte_Pagadores", header=True)
 
 	cursor.close()
