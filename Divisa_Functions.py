@@ -106,12 +106,7 @@ def connectionDB():
 def connectionDB_DM_Comercial():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          "Driver={SQL Server};"
-          "Server=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433;" #el nombre del servidor tambien puede ser "instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com,1433"
-          "Database=DM_Comercial_Divisa;"
-          "UID=admin;"
-          "PWD=admindivisa;" 
-        )
+			'DRIVER=FreeTDS;SERVER=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com;PORT=1433;DATABASE=DM_Comercial_Divisa;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
