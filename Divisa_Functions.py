@@ -106,7 +106,7 @@ def connectionDB():
 def connectionDB_DM_Comercial():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-			'DRIVER=FreeTDS;SERVER=instancia-divisa.cdjlf4mo9nan.sa-east-1.rds.amazonaws.com;PORT=1433;DATABASE=DM_Comercial_Divisa;UID=admin;PWD=admindivisa;')
+			'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=DM_Comercial_Divisa;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
