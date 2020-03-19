@@ -1,6 +1,6 @@
 @echo off
 
-set "VIRTUAL_ENV=C:\Python_Flask\Flask-Divisa\flask\envDivisa"
+set "VIRTUAL_ENV=C:\Python_Flask\envDivisa"
 
 if defined _OLD_VIRTUAL_PROMPT (
     set "PROMPT=%_OLD_VIRTUAL_PROMPT%"
