@@ -11,6 +11,7 @@ from Divisa_Functions import webservice_request, connectionDB, save_dataframe, D
 
 app = Flask(__name__, static_url_path="/static")
 
+"""
 @app.route('/', methods=['GET', 'POST'])
 def index():
 	#return ("Hola Mundo")
@@ -31,7 +32,9 @@ def index():
 
 
 	return render_template('index.html', form=nit_form)
+"""
 
+@app.route('/')
 @app.route('/reporte')
 def reporte():
 	return render_template('reporte.html')
