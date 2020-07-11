@@ -94,11 +94,10 @@ def webservice_request(nit):
 			f.write(response)
 	return True
 
-
 def connectionDB():
 	""" Conexión a la BD """
 	conn = pyodbc.connect(
-          'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa;UID=admin;PWD=admindivisa;')
+          'DRIVER=FreeTDS;SERVER=instancia-divisa-sql.cn7njzxefpfs.us-east-1.rds.amazonaws.com;PORT=1433;DATABASE=Divisa_Pruebas;UID=admin;PWD=admindivisa;')
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
@@ -110,7 +109,6 @@ def connectionDB_DM_Comercial():
 	cursor = conn.cursor()
 	
 	return (conn,cursor)
-
 
 def Descarga_Excel():
 	conn,cursor=connectionDB_DM_Comercial()

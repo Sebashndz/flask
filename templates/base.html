@@ -1,158 +1,275 @@
-<html>	
-	<head>
-		<title>Divisa ONE</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}" />
-		<script type="text/javascript" href="{{url_for('static',filename='js/ajax.js')}}"></script>
+<!DOCTYPE html>
+<html lang="en">
 
-				
-	</head>
-	<body class="is-preload">
+<head>
+	<title>Divisa ONE</title>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}" />
+	<script type="text/javascript" href="{{url_for('static',filename='js/ajax.js')}}"></script>
+</head>
 
-		<!-- Wrapper -->
-			<div id="wrapper">
+<body class="is-preload">
 
-				<!-- Main -->
-					<div id="main">
-						<div class="inner">
+	<!-- Wrapper -->
+	<div id="wrapper">
 
-							<!-- Header -->
-								<header id="header">
-									<a href="/" class="logo"><strong>Divisa ONE</strong></a>
-									<!--
-									<ul class="icons">
-										<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-										<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-										<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-										<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-										<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
-									</ul>
-									-->
-								</header>
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
 
-							<!-- Banner -->
-								<section id="banner">
-									<div id="loading" class="loading"></div>	
-									<div class="content">
-										
-										{% block consulta_nit%}
-										{% endblock %}
+				<!-- Header -->
+				<header id="header">
 
-										{% block reporte%}
-										{% endblock %}
-										<p></p>
-										
-
-									</div>
-										
-									
-								</section>
-
-							
+					<a href="/" class="logo"><strong>Divisa ONE </strong></a>
+					<!--
+					<ul class="icons">
+						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+						<li><a href="#" class="icon brands fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
+						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="#" class="icon brands fa-medium-m"><span class="label">Medium</span></a></li>
+					</ul>
+					-->
+					<div class="dropdown" >
+						<button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="float: right;">
+						 Cuenta
+						</button>
+						<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+						  <a class="dropdown-item" href="{{url_for('user.edit_user_profile')}}">Mi Perfil</a>
+						  <a class="dropdown-item" href="/logout" class="logo">Salir</a>
 						</div>
+					  </div>
+					<!-- <a href="/logout" class="logo" style="text-align: right;">Salir</a> -->
+				</header>
+
+				<!-- Banner -->
+				<section id="banner">
+					<div id="loading" class="loading"></div>
+					<div class="content">
+						{% from "flask_user/_macros.html" import render_field, render_checkbox_field, render_submit_field %}
+						{# One-time system messages called Flash messages #}
+						{%- with messages = get_flashed_messages(with_categories=true) -%}
+						{% if messages %}
+						{% for category, message in messages %}
+						{% if category=='error' %}
+						{% set category='danger' %}
+						{% endif %}
+						<div class="alert alert-{{category}}">{{ message|safe }}</div>
+						{% endfor %}
+						{% endif %}
+						{%- endwith %}
+						{% block consulta_nit%}
+						{% endblock %}
+
+						{% block reporte%}
+						{% endblock %}
+						<p></p>
 					</div>
+				</section>
+			</div>
+		</div>
 
-				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
 
-							<!-- Search -->
-								<section id="search" class="alt">
-									<form method="post" action="#">
-										<input type="text" name="query" id="query" placeholder="Search" />
-									</form>
-								</section>
+				<!-- Search -->
+				<section id="search" class="alt">
+					<form method="post" action="#">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
 
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<div class="accordion" id="accordionExample">
+						{% if current_user.has_role("A") %}
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h2 class="mb-0">
+									<a class="" type="button" data-toggle="collapse" data-target="#collapseOne"
+										aria-expanded="true" aria-controls="collapseOne">
+										Usuarios
+									</a>
+								</h2>
+							</div>
+
+							<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+								data-parent="#accordionExample">
+								<div class="card-body" style="background-color: #f5f6f7">
 									<ul>
-										<!-- <li><a href="/">Consulta Informa Colombia</a></li> -->
-									    <li><a href="/reporte">Reporte de Pagadores</a></li> 
+										
+										<li><a href="/user-register">Crear Usuarios</a></li>
+										<li><a href="/users">Listado de Usuarios</a></li>
 										
 									</ul>
-								</nav>
-
-							<!-- Section -->
-							
+								</div>
+							</div>
 						</div>
+						{% endif %}
+						{% if current_user.has_role("B") %}
+						<div class="card">
+							<div class="card-header" id="headingOne">
+								<h2 class="mb-0">
+									<a class="" type="button" data-toggle="collapse" data-target="#collapseOne"
+										aria-expanded="true" aria-controls="collapseOne">
+										Usuarios
+									</a>
+								</h2>
+							</div>
+
+							<div id="collapseOne" class="collapse" aria-labelledby="headingOne"
+								data-parent="#accordionExample">
+								<div class="card-body" style="background-color: #f5f6f7">
+									<ul>
+										
+										<li><a href="/user-register">Crear Usuarios</a></li>
+										<li><a href="/users">Listado de Usuarios</a></li>
+										
+									</ul>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						<div class="card">
+							<div class="card-header" id="headingTwo">
+								<h2 class="mb-0">
+									<a class="" type="button"
+										data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+										aria-controls="collapseTwo">
+										Consultas
+									</a>
+								</h2>
+							</div>
+							<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+								data-parent="#accordionExample">
+								<div class="card-body" style="background-color: #f5f6f7">
+									<ul>
+										{% if current_user.has_role("A") %}
+										<li><a href="/consulta">Consulta Informa Colombia</a></li>
+										{% endif %}
+										{% if current_user.has_role("B") %}
+										<li><a href="/consulta">Consulta Informa Colombia</a></li>
+
+										{% endif %}
+										<li><a href="/reporte">Reporte de Pagadores</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+
 					</div>
+					<!-- <ul>
+						{% if current_user.has_role("A") %}
+						<li><a href="/consulta">Consulta Informa Colombia</a></li>
+						<li><a href="/user-register">Crear Usuarios</a></li>
+						<li><a href="/users">Listado de Usuarios</a></li>
+						{% endif %}
+						{% if current_user.has_role("B") %}
+						<li><a href="/consulta">Consulta Informa Colombia</a></li>
+						<li><a href="/user-register">Crear Usuarios</a></li>
+						<li><a href="/users">Listado de Usuarios</a></li>
+						{% endif %}
+						<li><a href="/reporte">Reporte de Pagadores</a></li>
+						<li><a href="{{url_for('user.edit_user_profile')}}">Mi Perfil</a></li>
+					</ul> -->
+				</nav>
+
+				<!-- Section -->
 
 			</div>
+		</div>
 
-		<!-- Scripts -->
-		<!--
+	</div>
+
+	<!-- Scripts -->
+	<!--
 		<script type="text/javascript" href="{{url_for('static',filename='js/jquery.min.js')}}"></script>
 		<script type="text/javascript" href="{{url_for('static',filename='js/browser.min.js')}}"></script>
 		<script type="text/javascript" href="{{url_for('static',filename='js/breakpoints.min.js')}}"></script>
 		<script type="text/javascript" href="{{url_for('static',filename='js/util.js')}}"></script>
 		<script type="text/javascript" href="{{url_for('static',filename='js/main.js')}}"></script>
 		-->
-		
-			<script src="static/js/jquery.min.js"></script>
-			<script src="static/js/browser.min.js"></script>
-			<script src="static/js/breakpoints.min.js"></script>
-			<script src="static/js/util.js"></script>
-			<script src="static/js/main.js"></script>
-			<script type="text/javascript">// <![CDATA[
-        		function jsRemoveWindowLoad() {
-				    // eliminamos el div que bloquea pantalla
-				    $("#WindowLoad").remove();
-				 
-				}
-				 
-				function jsShowWindowLoad(mensaje) {
-				    //eliminamos si existe un div ya bloqueando
-				    jsRemoveWindowLoad();
-				 
-				    //si no enviamos mensaje se pondra este por defecto
-				    if (mensaje === undefined) mensaje = "Procesando la información&amp;lt;br&amp;gt;Espere por favor";
-				 
-				    //centrar imagen gif
-				    height = 20;//El div del titulo, para que se vea mas arriba (H)
-				    var ancho = 0;
-				    var alto = 0;
-				 
-				    //obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
-				    if (window.innerWidth == undefined) ancho = window.screen.width;
-				    else ancho = window.innerWidth;
-				    if (window.innerHeight == undefined) alto = window.screen.height;
-				    else alto = window.innerHeight;
-				 
-				    //operación necesaria para centrar el div que muestra el mensaje
-				    var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
-				 
-				   //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
-				    imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + "</div><img  src='static/loadingimage.gif'></div>";
-				 
-				        //creamos el div que bloquea grande------------------------------------------
-				        div = document.createElement("div");
-				        div.id = "WindowLoad"
-				        div.style.width = ancho + "px";
-				        div.style.height = alto + "px";
-				        $("body").append(div);
-				 
-				        //creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
-				        input = document.createElement("input");
-				        input.id = "focusInput";
-				        input.type = "text"
-				 
-				        //asignamos el div que bloquea
-				        $("#WindowLoad").append(input);
-				 
-				        //asignamos el foco y ocultamos el input text
-				        $("#focusInput").focus();
-				        $("#focusInput").hide();
-				 
-				        //centramos el div del texto
-				        $("#WindowLoad").html(imgCentro);
-				 
-				}
+
+	<script src="static/js/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+	<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+	<script src="static/js/browser.min.js"></script>
+	<script src="static/js/breakpoints.min.js"></script>
+	<script src="static/js/util.js"></script>
+	<script src="static/js/main.js"></script>
+	<script type="text/javascript">// <![CDATA[
+		function jsRemoveWindowLoad() {
+			// eliminamos el div que bloquea pantalla
+			$("#WindowLoad").remove();
+
+		}
+
+		function jsShowWindowLoad(mensaje) {
+			//eliminamos si existe un div ya bloqueando
+			jsRemoveWindowLoad();
+
+			//si no enviamos mensaje se pondra este por defecto
+			if (mensaje === undefined) mensaje = "Procesando la información&amp;lt;br&amp;gt;Espere por favor";
+
+			//centrar imagen gif
+			height = 20;//El div del titulo, para que se vea mas arriba (H)
+			var ancho = 0;
+			var alto = 0;
+
+			//obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
+			if (window.innerWidth == undefined) ancho = window.screen.width;
+			else ancho = window.innerWidth;
+			if (window.innerHeight == undefined) alto = window.screen.height;
+			else alto = window.innerHeight;
+
+			//operación necesaria para centrar el div que muestra el mensaje
+			var heightdivsito = alto / 2 - parseInt(height) / 2;//Se utiliza en el margen superior, para centrar
+
+			//imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
+			imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + "</div><img  src='static/loadingimage.gif'></div>";
+
+			//creamos el div que bloquea grande------------------------------------------
+			div = document.createElement("div");
+			div.id = "WindowLoad"
+			div.style.width = ancho + "px";
+			div.style.height = alto + "px";
+			$("body").append(div);
+
+			//creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
+			input = document.createElement("input");
+			input.id = "focusInput";
+			input.type = "text"
+
+			//asignamos el div que bloquea
+			$("#WindowLoad").append(input);
+
+			//asignamos el foco y ocultamos el input text
+			$("#focusInput").focus();
+			$("#focusInput").hide();
+
+			//centramos el div del texto
+			$("#WindowLoad").html(imgCentro);
+
+		}
 
 	  // ]]></script>
-		
-	</body>
+	{% block script %}
+	{% endblock %}
+
+</body>
+
 </html>

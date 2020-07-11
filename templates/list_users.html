@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+<!-- Carga en la plantilla base el Formulario -->
+{% block reporte%}
+<h1>{%trans%}Listado de Usuarios{%endtrans%}</h1>
+<table class="table" id="myTable">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Apellido</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Acciones</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{user.first_name}}</td>
+            <td>{{user.last_name}}</td>
+            <td>{{user.email}}</td>
+            <td>{{user.roles[0].name}}</td>
+            <td>
+                <a href="/user-update/{{user.id}}" style="color: blue; margin-right: 30px;">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="" data-toggle="modal" data-target="#delete" data-id="{{user.id}}" data-name={{user.first_name}}
+                    style="color: red; ">
+                    <i class="fas fa-trash"></i>
+                </a>
+
+            </td>
+        </tr>
+        {% endfor %}
+</table>
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Eliminar Usuario</h3>
+                <button type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="fa fa-times" aria-hidden="true"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card card-plain">
+                    <div class="card-body">
+                        <form method="POST" action="" id="delete_user">
+                        </form>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  data-dismiss="modal">Cancelar</button>
+                <button type="submit"  form="delete_user">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            },
+        });
+    });
+    $('#delete').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var id = button.data('id') // Extract info from data-* attributes
+        var name = button.data('name') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var url = '/user-delete/' + id
+        var modal = $(this)
+        // modal.find('.modal-title').text('New message to ' + recipient)
+        modal.find('.modal-body form').attr('action', url)
+        modal.find('.modal-body p').text('Realmente deseas eliminar a ' + name + ' de la lista de usuarios?')
+    })
+</script>
+{% endblock %}

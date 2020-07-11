@@ -1,0 +1,4 @@
+{
+    "python.formatting.provider": "black",
+    "python.pythonPath": "/home/alejo/virtualenvs/flask/bin/python3"
+}
