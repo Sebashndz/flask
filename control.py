@@ -211,8 +211,7 @@ def create_app():
         Descarga_Excel()
         path = "/var/www/html/flask/Resultados/Reporte.xls"
         flash("Descarga realizada exitosamente", "success")
-        send_file(path, as_attachment=True)
-        return redirect("/reporte")
+        return send_file(path, as_attachment=True)
 
     @login_manager.user_loader
     def load_user(user_id):
