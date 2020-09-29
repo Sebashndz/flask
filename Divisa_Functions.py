@@ -119,7 +119,7 @@ def Descarga_Excel():
 	df = pd.read_sql_query(sql, conn)
 	#print (df)
 	path="/var/www/html/flask/Resultados/Reporte.xls"
-	df.to_excel(path, sheet_name="Reporte_Pagadores", header=True)
+	df.to_excel(path, sheet_name="Reporte_Pagadores", header=True, index=False)
 
 	cursor.close()
 	conn.close()
