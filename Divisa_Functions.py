@@ -28,6 +28,7 @@ import glob
 from pandas import ExcelWriter
 from flask import send_file
 import xlwt
+import xlsxwriter
 
 def validate_route():
 	""" Valida las rutas de almacenamoento de los archivos """
@@ -119,7 +120,19 @@ def Descarga_Excel():
 	df = pd.read_sql_query(sql, conn)
 	#print (df)
 	path="/var/www/html/flask/Resultados/Reporte.xls"
-	df.to_excel(path, sheet_name="Reporte_Pagadores", header=True, index=False)
+	# df.to_excel(path, sheet_name="Reporte_Pagadores", header=True, index=False, float_format="%.2f", engine='xlsxwriter')
+	writer = pd.ExcelWriter(path, engine='xlsxwriter')
+	df.to_excel(writer,sheet_name="Reporte_Pagadores", header=True, index=False, float_format="%.2f")
+	workbook  = writer.book
+	worksheet = writer.sheets['Reporte_Pagadores']
+	format1 = workbook.add_format({'num_format': '#,##0.00'})
+	format2 = workbook.add_format({'num_format': 'dd/mm/yyyy'})
+	format3 = workbook.add_format({'num_format': 'dd/mm/yyyy hh:mm AM/PM'})
+	worksheet.set_column('E:H', 18, format1)
+	worksheet.set_column('N:Q', 18, format2)
+	worksheet.set_column('X:X', 18, format3)
+	#Alternatively, you could specify a range of columns with 'B:D' and 18 sets the column width
+	writer.save()
 
 	cursor.close()
 	conn.close()
