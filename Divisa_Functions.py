@@ -1291,6 +1291,20 @@ def ing_tbl_F_Accionistas(conn,cursor,tbl_F_Accionistas):
 		conn.commit()
 	return True
 
+def ing_tbl_F_Capital(conn,cursor,tbl_F_Capital):
+	if tbl_F_Capital.empty:
+		print("tbl_F_Capital esta vacio")
+	else:
+		for index,row in tbl_F_Capital.iterrows():
+			cursor.execute("INSERT INTO dbo.tbl_F_Capital([Nit_Cliente],[Importe],[Fecha_Efecto],[Fecha_Captura]) values (?,?,?,?)",
+				row['Nit_Cliente'],
+				row['Importe'],
+				row['Fecha_Efecto'],
+				row['Fecha_Captura']
+				)
+		conn.commit()
+	return True
+
 def ing_tbl_F_Administradores(conn,cursor,tbl_F_Administradores):
 	if tbl_F_Administradores.empty:
 		print("tbl_F_Administradores esta vacio")
@@ -1729,7 +1743,12 @@ def save_dataframe(nit):
 	DicIdentificacionCaracteristicasJURID = ["DES_TIPO", "FEC_EFECTO"]
 	dfIdentificacionCaracteristicasJURID = Extraer_Dataframe_Dic(Directorio,tree,root,PathIdentificacionCaracteristicasJURID, DicIdentificacionCaracteristicasJURID)
 	tbl_D_Clientes['Forma_Juridica_Cliente'] = dfIdentificacionCaracteristicasJURID["DES_TIPO/"].iloc[0]
-	tbl_D_Clientes['Fecha_Constitucion'] = dfIdentificacionCaracteristicasJURID["FEC_EFECTO/"].iloc[0]
+	# tbl_D_Clientes['Fecha_Constitucion'] = dfIdentificacionCaracteristicasJURID["FEC_EFECTO/"].iloc[0]
+
+	PathIdentificacionCaracteristicasCONST = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/INFO_LEGAL"
+	DicIdentificacionCaracteristicasCONST = ["FEC_CONSTITUCION", "FEC_INI_ACT"]
+	dfIdentificacionCaracteristicasCONST = Extraer_Dataframe_Dic(Directorio,tree,root,PathIdentificacionCaracteristicasCONST, DicIdentificacionCaracteristicasCONST)
+	tbl_D_Clientes['Fecha_Constitucion'] = dfIdentificacionCaracteristicasCONST["FEC_CONSTITUCION/INFO_LEGAL"].iloc[0]
 
 	PathIdentificacionCaracteristicasACTIV = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/ACTIVIDADES/CODIGO/ACTIVIDAD"
 	DicIdentificacionCaracteristicasACTIV = ["CODIGO","DESC_FORMATO_LOCAL"]
@@ -1916,6 +1935,20 @@ def save_dataframe(nit):
 	tbl_F_Accionistas = Validar_Formato_Tabla(dfInfoCorporativa_Accion, dicInfoCorporativa_Accion)
 	#Guardar_csv(tbl_F_Accionistas, PathCarpetaResultados, f"{NIT}_tbl_F_Accionistas.csv")
 	ing_tbl_F_Accionistas(conn,cursor,tbl_F_Accionistas)
+
+	"""###tbl_F_Capital"""
+
+	PathInformacionComercial_Capital = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/CAPITAL/ACTUAL/SOCIAL"
+	dfInfoCorporativa_Capital = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital)
+	dicInfoCorporativa_Capital = ['IMPORTE', 'FEC_EFECTO']
+	dfInfoCorporativa_Capital = Validar_Formato_Tabla(dfInfoCorporativa_Capital, dicInfoCorporativa_Capital)
+	dicInfoCorporativa_Capital = ['Importe', 'Fecha_Efecto']
+	dfInfoCorporativa_Capital.columns = dicInfoCorporativa_Capital
+	dfInfoCorporativa_Capital['Nit_Cliente'] = int(NIT)
+	dfInfoCorporativa_Capital['Fecha_Captura'] = Fecha_Captura
+	dicInfoCorporativa_Capital = ['Nit_Cliente', 'Importe', 'Fecha_Efecto', 'Fecha_Captura']
+	tbl_F_Capital = Validar_Formato_Tabla(dfInfoCorporativa_Capital, dicInfoCorporativa_Capital)
+	ing_tbl_F_Capital(conn,cursor,tbl_F_Capital)
 
 	"""###tbl_F_Administradores"""
 

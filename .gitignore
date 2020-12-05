@@ -1,2 +1,4 @@
 config.py
 par_claves_ec2_divisa_one.pem
+Consultas/*
+__pycache__/
