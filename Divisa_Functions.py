@@ -29,6 +29,7 @@ from pandas import ExcelWriter
 from flask import send_file
 import xlwt
 import xlsxwriter
+import math
 
 def validate_route():
 	""" Valida las rutas de almacenamoento de los archivos """
@@ -165,6 +166,22 @@ def Validar_Formato_Tabla(df, DicFormatoEntrada):
 	df = df.astype(object).where(pd.notnull(df),None)
 	return df
 
+def Combinar_Celdas(df, DicFormatoEntrada):
+	"""Funcion que recibe un dataframe y un diccionario, 
+	   compara el df contra el diccionario y lo acomoda a ese formato, 
+	   si algun campo del df no existe lo crea con null o si le sobra lo elimina para que los 
+	   campos tengan estrictamente la estructura de entrada    
+	"""
+	dfOrdenado = pd.DataFrame(columns=DicFormatoEntrada)
+	df = Append(df1=dfOrdenado, df2=df)
+	values = {'NOMBRE': "", 'APELLIDO1': "", 'APELLIDO2': ""}
+	df.fillna(value=values, inplace=True)
+	df['NOMBRE_COMPLETO'] = df[['NOMBRE', 'APELLIDO1', 'APELLIDO2']].agg(' '.join, axis=1)
+	df = df[dfOrdenado.columns]
+	df = df.astype(object).where(pd.notnull(df),None)
+	return df
+	
+
 def ConsultaElemento(root,PathElemento):
 	""" Extrae todos los elementos dentro del nivel espefifico """
 	#PathCarpetaConsultas = "C:\\Python_Flask\\envDivisa\\Consultas\\"
@@ -172,7 +189,6 @@ def ConsultaElemento(root,PathElemento):
 	#tree = ET.parse(PathXml)
 	#root = tree.getroot()
     
-
 	for Elemento in root.findall(PathElemento):
 		ElementoTexto = Elemento.text
 	return (ElementoTexto)
@@ -199,9 +215,8 @@ def Extraer_Dataframe(Directorio,tree,PathDataFrame):
 	for root in tree.findall(PathDataFrame):
 		data = list(root)
 		listado = OrderedDict((content.tag, content.text) for content in data)
-		df_table = pd.DataFrame(listado, columns = tag, index=["1"])
+		df_table = pd.DataFrame(listado, columns = tag, index=["1"]).dropna(axis=1)
 		df = df.append(df_table, ignore_index = True, sort=False)
-
 	Path = Directorio +"_"+ Extraer_Label(PathDataFrame) + ".csv"
 	return df
 
@@ -1281,10 +1296,11 @@ def ing_tbl_F_Accionistas(conn,cursor,tbl_F_Accionistas):
 		print("tbl_F_Accionistas esta vacio")
 	else:
 		for index,row in tbl_F_Accionistas.iterrows():
-			cursor.execute("INSERT INTO dbo.tbl_F_Accionistas([Nit_Cliente],[Doc_Accionista],[Nombre_Accionista],[Fecha_Efecto],[Fecha_Captura]) values (?,?,?,?,?)",
+			cursor.execute("INSERT INTO dbo.tbl_F_Accionistas([Nit_Cliente],[Doc_Accionista],[Nombre_Accionista], [Razon_Social],[Fecha_Efecto],[Fecha_Captura]) values (?,?,?,?,?,?)",
 				row['Nit_Cliente'],
 				row['Doc_Accionista'],
 				row['Nombre_Accionista'],
+				row['Razon_Social'],
 				row['Fecha_Efecto'],
 				row['Fecha_Captura']
 				)
@@ -1925,13 +1941,15 @@ def save_dataframe(nit):
 	Id_Accionista = np.nan
 	PathInfoCorporativa_Accion = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/VINCFINAN/ACCIONISTAS/ACCIONISTA"
 	dfInfoCorporativa_Accion = Extraer_Dataframe(Directorio,tree,PathInfoCorporativa_Accion)
-	dicInfoCorporativa_Accion = ['RAZONSOCIAL', 'FEC_EFECTO', 'ID_FISCAL']
+	dicInfoCorporativa_Accion = ['NOMBRE', 'APELLIDO1', 'APELLIDO2','RAZONSOCIAL', 'FEC_EFECTO', 'ID_FISCAL']
 	dfInfoCorporativa_Accion = Validar_Formato_Tabla(dfInfoCorporativa_Accion, dicInfoCorporativa_Accion)
-	dicInfoCorporativa_Accion = ['Nombre_Accionista', 'Fecha_Efecto', 'Doc_Accionista']
+	dicInfoCorporativa_Accion = ['NOMBRE_COMPLETO','RAZONSOCIAL', 'FEC_EFECTO', 'ID_FISCAL']
+	dfInfoCorporativa_Accion = Combinar_Celdas(dfInfoCorporativa_Accion, dicInfoCorporativa_Accion)
+	dicInfoCorporativa_Accion = ['Nombre_Accionista', 'Razon_Social', 'Fecha_Efecto', 'Doc_Accionista']
 	dfInfoCorporativa_Accion.columns = dicInfoCorporativa_Accion
 	dfInfoCorporativa_Accion['Nit_Cliente'] = int(NIT)
 	dfInfoCorporativa_Accion['Fecha_Captura'] = Fecha_Captura
-	dicInfoCorporativa_Accion = ['Nit_Cliente', 'Doc_Accionista', 'Nombre_Accionista', 'Fecha_Efecto', 'Fecha_Captura']
+	dicInfoCorporativa_Accion = ['Nit_Cliente', 'Doc_Accionista', 'Nombre_Accionista', 'Razon_Social', 'Fecha_Efecto', 'Fecha_Captura']
 	tbl_F_Accionistas = Validar_Formato_Tabla(dfInfoCorporativa_Accion, dicInfoCorporativa_Accion)
 	#Guardar_csv(tbl_F_Accionistas, PathCarpetaResultados, f"{NIT}_tbl_F_Accionistas.csv")
 	ing_tbl_F_Accionistas(conn,cursor,tbl_F_Accionistas)
