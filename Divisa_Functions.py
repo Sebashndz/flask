@@ -149,7 +149,7 @@ def Break_conn(conn,cursor):
 		FROM sys.dm_exec_sessions
 		WHERE database_id  = db_id('Divisa')
 		EXEC(@kill);""")
-	conn.commit()
+	# conn.commit()
 
 ################
 #Funciones Base #
@@ -1955,7 +1955,7 @@ def save_dataframe(nit):
 	ing_tbl_F_Accionistas(conn,cursor,tbl_F_Accionistas)
 
 	"""###tbl_F_Capital"""
-
+	Id_Capital = np.nan
 	PathInformacionComercial_Capital = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/CAPITAL/ACTUAL/SOCIAL"
 	dfInfoCorporativa_Capital = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital)
 	dicInfoCorporativa_Capital = ['IMPORTE', 'FEC_EFECTO']
