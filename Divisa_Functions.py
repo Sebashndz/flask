@@ -1956,10 +1956,25 @@ def save_dataframe(nit):
 
 	"""###tbl_F_Capital"""
 	Id_Capital = np.nan
-	PathInformacionComercial_Capital = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/CAPITAL/ACTUAL/SOCIAL"
-	dfInfoCorporativa_Capital = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital)
+
+	PathInformacionComercial_Capital_Actual = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/CAPITAL/ACTUAL/SOCIAL"
+
+	PathInformacionComercial_Capital_Anterior = "./PRODUCTO_DEVUELTO/DATOS_PROD_DEVUELTO/INFORME_FINANCIERO_INTERNACIONAL/CAPITAL/ANTERIOR/SOCIAL"
+
+	dfInfoCorporativa_Capital_Actual = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital_Actual)
+
+	dfInfoCorporativa_Capital_Anterior = Extraer_Dataframe(Directorio,tree,PathInformacionComercial_Capital_Anterior)
+	
 	dicInfoCorporativa_Capital = ['IMPORTE', 'FEC_EFECTO']
-	dfInfoCorporativa_Capital = Validar_Formato_Tabla(dfInfoCorporativa_Capital, dicInfoCorporativa_Capital)
+
+	dfInfoCorporativa_Capital_Actual = Validar_Formato_Tabla(dfInfoCorporativa_Capital_Actual, dicInfoCorporativa_Capital)
+
+	dfInfoCorporativa_Capital_Anterior = Validar_Formato_Tabla(dfInfoCorporativa_Capital_Anterior, dicInfoCorporativa_Capital)
+
+	frames = [dfInfoCorporativa_Capital_Actual, dfInfoCorporativa_Capital_Anterior]
+
+	dfInfoCorporativa_Capital = pd.concat(frames)
+
 	dicInfoCorporativa_Capital = ['Importe', 'Fecha_Efecto']
 	dfInfoCorporativa_Capital.columns = dicInfoCorporativa_Capital
 	dfInfoCorporativa_Capital['Nit_Cliente'] = int(NIT)
